@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAI.Example", "FluentAI.Example\FluentAI.Example.csproj", "{385DC69C-4CC7-4EBC-9159-B022874D33F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAI", "FluentAI\FluentAI.csproj", "{801CD612-F882-47AE-9418-656BAE2A770E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{385DC69C-4CC7-4EBC-9159-B022874D33F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{385DC69C-4CC7-4EBC-9159-B022874D33F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{385DC69C-4CC7-4EBC-9159-B022874D33F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{385DC69C-4CC7-4EBC-9159-B022874D33F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{801CD612-F882-47AE-9418-656BAE2A770E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{801CD612-F882-47AE-9418-656BAE2A770E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{801CD612-F882-47AE-9418-656BAE2A770E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{801CD612-F882-47AE-9418-656BAE2A770E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
