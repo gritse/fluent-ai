@@ -1,17 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Azure.AI.OpenAI;
-using FluentAI.Extensions;
-using FluentAI.Tools;
+using FluentAI.ChatCompletions.Common.Clients;
+using FluentAI.ChatCompletions.Tools;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 
-namespace FluentAI;
+namespace FluentAI.ChatCompletions;
 
 public class ChatCompletionsRequest(
-    OpenAIClient openAiClient,
+    ChatCompletionClientBase openAiClient,
     JsonSchema? responseSchema,
     ChatCompletionsOptions chatCompletionsOptions,
     IReadOnlyDictionary<string, IChatCompletionTool> toolbox) : IChatCompletionsRequest
@@ -24,8 +23,8 @@ public class ChatCompletionsRequest(
     /// <returns>The plain string response from the chat completion.</returns>
     public async Task<string> GetPlainStringResponse()
     {
-        var response = await openAiClient.GetChatCompletionsAsync(chatCompletionsOptions.DeepClone(), toolbox);
-        return response.Value.Choices[0].Message.Content;
+        var response = await openAiClient.GetChatCompletionsAsync(chatCompletionsOptions.Clone(), toolbox);
+        return response.CompletionMessage.Content;
     }
 
     /// <summary>
@@ -43,7 +42,7 @@ public class ChatCompletionsRequest(
             throw new InvalidOperationException("Schema is not specified. Please use the UseResponseSchema<T>() method to define the response schema before calling GetStructuredResponse<T>().");
         }
 
-        var response = await openAiClient.GetStructuredChatCompletionsAsync(chatCompletionsOptions.DeepClone(),
+        var response = await openAiClient.GetStructuredChatCompletionsAsync(chatCompletionsOptions.Clone(),
             responseSchema, toolbox, retryCount);
 
         return response.ToObject<T>(_jsonSerializer) ?? throw new InvalidOperationException();

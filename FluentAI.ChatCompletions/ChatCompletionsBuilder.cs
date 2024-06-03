@@ -1,18 +1,22 @@
 using System.Collections.Generic;
-using Azure.AI.OpenAI;
-using FluentAI.Extensions;
-using FluentAI.Tools;
+using FluentAI.ChatCompletions.Common;
+using FluentAI.ChatCompletions.Common.Clients;
+using FluentAI.ChatCompletions.Common.Messages;
+using FluentAI.ChatCompletions.Tools;
+using FluentAI.ChatCompletions.Extensions;
 using Newtonsoft.Json;
 using JsonSchema = NJsonSchema.JsonSchema;
 
-namespace FluentAI;
+namespace FluentAI.ChatCompletions;
+
+using ChatCompletionsOptions = Common.Clients.ChatCompletionsOptions;
 
 /// <summary>
 /// Builder class for constructing and executing chat completions using the OpenAI API.
 /// </summary>
 /// <param name="openAiClient">The OpenAI client instance used to send requests.</param>
 /// <param name="chatCompletionsOptions">Optional chat completion options to customize the requests.</param>
-public class ChatCompletionsBuilder(OpenAIClient openAiClient, ChatCompletionsOptions? chatCompletionsOptions = null) : IChatCompletionsBuilder
+public class ChatCompletionsBuilder(ChatCompletionClientBase openAiClient, ChatCompletionsOptions? chatCompletionsOptions = null) : IChatCompletionsBuilder
 {
     private readonly Dictionary<string, IChatCompletionTool> _toolbox = new();
     private JsonSchema? _responseSchema;
@@ -21,7 +25,7 @@ public class ChatCompletionsBuilder(OpenAIClient openAiClient, ChatCompletionsOp
     /// Gets or sets the chat completion options used to customize the chat completion requests.
     /// </summary>
     /// <value>
-    /// An instance of <see cref="ChatCompletionsOptions"/> that contains the configuration for the chat completion requests.
+    /// An instance of <see cref="Azure.AI.OpenAI.ChatCompletionsOptions"/> that contains the configuration for the chat completion requests.
     /// </value>
     public ChatCompletionsOptions ChatCompletionOptions { get; set; } = chatCompletionsOptions ?? new();
 
@@ -73,7 +77,7 @@ public class ChatCompletionsBuilder(OpenAIClient openAiClient, ChatCompletionsOp
     /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
     public ChatCompletionsBuilder SystemPrompt(string prompt)
     {
-        ChatCompletionOptions.Messages.Add(new ChatRequestSystemMessage(prompt));
+        ChatCompletionOptions.Messages.Add(new ChatCompletionSystemMessage(prompt));
         return this;
     }
 
@@ -84,7 +88,7 @@ public class ChatCompletionsBuilder(OpenAIClient openAiClient, ChatCompletionsOp
     /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
     public ChatCompletionsBuilder AssistantPrompt(string prompt)
     {
-        ChatCompletionOptions.Messages.Add(new ChatRequestAssistantMessage(prompt));
+        ChatCompletionOptions.Messages.Add(new ChatCompletionAssistantMessage(prompt, new()));
         return this;
     }
 
@@ -95,7 +99,7 @@ public class ChatCompletionsBuilder(OpenAIClient openAiClient, ChatCompletionsOp
     /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
     public ChatCompletionsBuilder UserPrompt(string prompt)
     {
-        ChatCompletionOptions.Messages.Add(new ChatRequestUserMessage(prompt));
+        ChatCompletionOptions.Messages.Add(new ChatCompletionUserMessage(prompt));
         return this;
     }
 
@@ -130,8 +134,8 @@ public class ChatCompletionsBuilder(OpenAIClient openAiClient, ChatCompletionsOp
     {
         _responseSchema = jsonSchema;
 
-        ChatCompletionOptions.ResponseFormat = ChatCompletionsResponseFormat.JsonObject;
-        ChatCompletionOptions.Messages.Add(new ChatRequestUserMessage($"Return answer in json format as specified in schema:\r\n{_responseSchema.ToJson(Formatting.Indented)}"));
+        ChatCompletionOptions.ResponseFormat = ChatCompletionFormat.Json;
+        ChatCompletionOptions.Messages.Add(new ChatCompletionUserMessage($"Return answer in json format as specified in schema:\r\n{_responseSchema.ToJson(Formatting.Indented)}"));
 
         return this;
     }

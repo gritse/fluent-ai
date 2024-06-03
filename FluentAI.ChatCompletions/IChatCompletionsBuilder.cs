@@ -1,8 +1,9 @@
-using Azure.AI.OpenAI;
-using FluentAI.Tools;
+using FluentAI.ChatCompletions.Tools;
 using NJsonSchema;
 
-namespace FluentAI;
+namespace FluentAI.ChatCompletions;
+
+using ChatCompletionsOptions = Common.Clients.ChatCompletionsOptions;
 
 public interface IChatCompletionsBuilder
 {
@@ -10,7 +11,7 @@ public interface IChatCompletionsBuilder
     /// Gets or sets the chat completion options used to customize the chat completion requests.
     /// </summary>
     /// <value>
-    /// An instance of <see cref="ChatCompletionsOptions"/> that contains the configuration for the chat completion requests.
+    /// An instance of <see cref="Azure.AI.OpenAI.ChatCompletionsOptions"/> that contains the configuration for the chat completion requests.
     /// </value>
     ChatCompletionsOptions ChatCompletionOptions { get; set; }
 

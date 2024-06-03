@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace FluentAI.Tools;
+namespace FluentAI.ChatCompletions.Tools;
 
 /// <summary>
 /// Base class for chat completion tools, providing common functionality for handling requests and responses.
@@ -28,7 +28,7 @@ public abstract class ChatCompletionToolBase<TRequest, TResponse>(string functio
     /// </summary>
     /// <param name="request">The request to handle.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the response.</returns>
-    async Task<object> IChatCompletionTool.Handle(object request) => await Handle((TRequest)request);
+    async Task<object?> IChatCompletionTool.Handle(object request) => await Handle((TRequest)request);
 
     /// <summary>
     /// Gets the type of the request handled by the tool.

@@ -2,16 +2,17 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 using System.Text.Json;
-using Azure.AI.OpenAI;
-using FluentAI.Tools;
+using FluentAI.ChatCompletions.Common;
+using FluentAI.ChatCompletions.Common.Tools;
+using FluentAI.ChatCompletions.Tools;
 using NJsonSchema;
 using NJsonSchema.Generation;
 
-namespace FluentAI.Extensions;
+namespace FluentAI.ChatCompletions.Extensions;
 
 internal static class SchemaHelper
 {
-    public static ChatCompletionsFunctionToolDefinition CreateToolDefinitionFromType<T>(this T tool) where T : IChatCompletionTool
+    public static IChatCompletionsFunctionDefinition CreateToolDefinitionFromType<T>(this T tool) where T : IChatCompletionTool
     {
         var type = typeof(T);
         var descriptionAttribute = type.GetCustomAttribute<DescriptionAttribute>();
@@ -20,12 +21,7 @@ internal static class SchemaHelper
         var description = descriptionAttribute?.Description ?? string.Empty;
         var parameters = CreateSchemaFromType(tool.RequestType);
 
-        return new ChatCompletionsFunctionToolDefinition
-        {
-            Name = name,
-            Description = description,
-            Parameters = BinaryData.FromString(parameters.ToJson())
-        };
+        return new ChatFunctionDefinition(name, description, parameters);
     }
 
     public static JsonSchema CreateSchemaFromType(this Type type)

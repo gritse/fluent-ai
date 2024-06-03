@@ -1,6 +1,4 @@
-using System.ClientModel.Primitives;
 using System.Collections.Generic;
-using Azure.AI.OpenAI;
 using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NJsonSchema.Validation;
@@ -15,9 +13,9 @@ internal static class JsonExtensions
         return validationErrors.Count == 0;
     }
 
-    public static ChatCompletionsOptions DeepClone(this ChatCompletionsOptions options)
+    public static bool IsValidJson(this string json, JsonSchema schema, out ICollection<ValidationError> validationErrors)
     {
-        var binaryData = ((IPersistableModel<ChatCompletionsOptions>)options).Write(ModelReaderWriterOptions.Json);
-        return ((IPersistableModel<ChatCompletionsOptions>)new ChatCompletionsOptions()).Create(binaryData, ModelReaderWriterOptions.Json);
+        validationErrors = schema.Validate(json);
+        return validationErrors.Count == 0;
     }
 }

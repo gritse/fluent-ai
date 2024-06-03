@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Azure.AI.OpenAI;
-using FluentAI.Example;
-using FluentAI;
-using FluentAI.Tools;
+using FluentAI.ChatCompletions.Example;
+using FluentAI.ChatCompletions;
+using FluentAI.ChatCompletions.Extensions;
+using FluentAI.ChatCompletions.Tools;
 
 var openAiToken = Keychain.GetKeychainPassword("OPEN_AI_TOKEN", Environment.UserName);
 var client = new OpenAIClient(openAiToken);
 
-var request = new ChatCompletionsBuilder(client)
+var request = new ChatCompletionsBuilder(new ChatCompletionOpenAIClient(client))
     .UseChatModel("gpt-4o")
     .UseChatTool(new FetchUrlTool())
     .UserPrompt("Give me short description of the following webpage: https://docs.bland.ai/welcome-to-bland")

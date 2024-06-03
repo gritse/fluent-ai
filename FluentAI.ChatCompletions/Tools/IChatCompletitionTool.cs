@@ -1,13 +1,13 @@
 using System;
 using System.Threading.Tasks;
 
-namespace FluentAI.Tools;
+namespace FluentAI.ChatCompletions.Tools;
 
 public interface IChatCompletionTool
 {
     string FunctionName { get; }
 
-    Task<object> Handle(object request);
+    Task<object?> Handle(object request);
 
     Type RequestType { get; }
 }

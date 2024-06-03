@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace FluentAI;
+namespace FluentAI.ChatCompletions;
 
 public interface IChatCompletionsRequest
 {
