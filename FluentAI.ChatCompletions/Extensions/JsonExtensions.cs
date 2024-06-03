@@ -1,21 +1,27 @@
-using System.Collections.Generic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NJsonSchema;
-using NJsonSchema.Validation;
 
-namespace FluentAI.Extensions;
+namespace FluentAI.ChatCompletions.Extensions;
 
 internal static class JsonExtensions
 {
-    public static bool IsValidJson(this JObject obj, JsonSchema schema, out ICollection<ValidationError> validationErrors)
+    public static bool IsValidJson(this string unvalidatedJson, JsonSchema schema, out string validationErrorMessage, string separator = "\r\n")
     {
-        validationErrors = schema.Validate(obj);
-        return validationErrors.Count == 0;
-    }
+        JObject json;
+        try
+        {
+            json = JObject.Parse(unvalidatedJson);
+        }
+        catch (JsonReaderException exception)
+        {
+            validationErrorMessage = exception.Message;
+            return false;
+        }
 
-    public static bool IsValidJson(this string json, JsonSchema schema, out ICollection<ValidationError> validationErrors)
-    {
-        validationErrors = schema.Validate(json);
+        var validationErrors = schema.Validate(json);
+        validationErrorMessage = string.Join(separator, validationErrors);
+
         return validationErrors.Count == 0;
     }
 }

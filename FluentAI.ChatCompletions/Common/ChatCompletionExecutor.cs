@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAI.ChatCompletions.Common.Messages;
 using FluentAI.ChatCompletions.Common.Tools;
-using FluentAI.ChatCompletions.Tools;
 using FluentAI.ChatCompletions.Extensions;
-using FluentAI.Extensions;
+using FluentAI.ChatCompletions.Tools;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 
-namespace FluentAI.ChatCompletions.Common.Clients;
+namespace FluentAI.ChatCompletions.Common;
 
-public abstract class ChatCompletionClientBase
+public class ChatCompletionExecutor(IChatCompletionsClient client)
 {
     public async Task<JObject> GetStructuredChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions,
         JsonSchema responseSchema,
@@ -27,32 +26,30 @@ public abstract class ChatCompletionClientBase
         while (remainingRetries > 0)
         {
             var response = await GetChatCompletionsAsync(chatCompletionsOptions, toolbox);
-            var unvalidatedJson = JObject.Parse(response.CompletionMessage.Content);
+            var unvalidatedJson = response.CompletionMessage.Content;
 
-            if (unvalidatedJson.IsValidJson(responseSchema, out var errorMessages))
-                return unvalidatedJson;
+            if (unvalidatedJson.IsValidJson(responseSchema, out var errorMessage))
+                return JObject.Parse(unvalidatedJson);
 
-            var errors = string.Join("\r\n", errorMessages);
-            chatCompletionsOptions.Messages.Add(new ChatCompletionUserMessage($"Answer isn't valid due to json schema validation errors:\r\n{errors}"));
+            chatCompletionsOptions.Messages.Add(new ChatCompletionUserMessage($"Answer isn't valid due to json schema validation errors:\r\n{errorMessage}"));
 
             remainingRetries--;
         }
 
         // Final attempt after the retries
         var finalResponse = await GetChatCompletionsAsync(chatCompletionsOptions, toolbox);
-        var finalUnvalidatedJson = JObject.Parse(finalResponse.CompletionMessage.Content);
+        var finalUnvalidatedJson = finalResponse.CompletionMessage.Content;
 
-        if (finalUnvalidatedJson.IsValidJson(responseSchema, out var finalErrorMessages))
-            return finalUnvalidatedJson;
+        if (finalUnvalidatedJson.IsValidJson(responseSchema, out var finalErrorMessage))
+            return JObject.Parse(finalUnvalidatedJson);
 
-        var finalErrors = string.Join(", ", finalErrorMessages);
-        throw new InvalidOperationException($"Chat completion isn't valid due to json schema validation errors: {finalErrors}");
+        throw new InvalidOperationException($"Chat completion isn't valid due to json schema validation errors: {finalErrorMessage}");
 
     }
 
     public async Task<ChatCompletionResponse> GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, IReadOnlyDictionary<string, IChatCompletionTool> toolbox)
     {
-        var response = await GetChatCompletionsAsync(chatCompletionsOptions);
+        var response = await client.GetChatCompletionsAsync(chatCompletionsOptions);
 
         while (response.IsChatToolCall)
         {
@@ -62,13 +59,11 @@ public abstract class ChatCompletionClientBase
                 chatCompletionsOptions.Messages.Add(await GetToolCallResponseMessage(toolCall, toolbox));
             }
 
-            response = await GetChatCompletionsAsync(chatCompletionsOptions);
+            response = await client.GetChatCompletionsAsync(chatCompletionsOptions);
         }
 
         return response;
     }
-
-    protected abstract Task<ChatCompletionResponse> GetChatCompletionsAsync(ChatCompletionsOptions completionOptions);
 
     private static async Task<ChatCompletionToolMessage> GetToolCallResponseMessage(ChatCompletionsFunctionCall toolCall,
         IReadOnlyDictionary<string, IChatCompletionTool> toolbox)
@@ -86,14 +81,12 @@ public abstract class ChatCompletionClientBase
 
         var requestSchema = requestType.CreateSchemaFromType();
 
-        var jsonArguments = JObject.Parse(unvalidatedArguments);
-        if (!jsonArguments.IsValidJson(requestSchema, out var errors))
+        if (!unvalidatedArguments.IsValidJson(requestSchema, out var errorMessage, ", "))
         {
-            var errorMessages = string.Join(", ", errors);
-            throw new ArgumentException($"Arguments for tool call validation failed: {errorMessages}");
+            throw new ArgumentException($"Arguments for tool call validation failed: {errorMessage}");
         }
 
-        var request = jsonArguments.ToObject(requestType, JsonSerializer.CreateDefault(serializerSettings));
+        var request = JsonConvert.DeserializeObject(unvalidatedArguments, requestType, serializerSettings);
 
         if (request == null)
         {

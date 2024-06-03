@@ -1,9 +1,8 @@
+using FluentAI.ChatCompletions.Common;
 using FluentAI.ChatCompletions.Tools;
 using NJsonSchema;
 
 namespace FluentAI.ChatCompletions;
-
-using ChatCompletionsOptions = Common.Clients.ChatCompletionsOptions;
 
 public interface IChatCompletionsBuilder
 {

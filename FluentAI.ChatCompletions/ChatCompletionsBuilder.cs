@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using FluentAI.ChatCompletions.Common;
-using FluentAI.ChatCompletions.Common.Clients;
 using FluentAI.ChatCompletions.Common.Messages;
 using FluentAI.ChatCompletions.Tools;
 using FluentAI.ChatCompletions.Extensions;
@@ -9,14 +8,12 @@ using JsonSchema = NJsonSchema.JsonSchema;
 
 namespace FluentAI.ChatCompletions;
 
-using ChatCompletionsOptions = Common.Clients.ChatCompletionsOptions;
-
 /// <summary>
 /// Builder class for constructing and executing chat completions using the OpenAI API.
 /// </summary>
-/// <param name="openAiClient">The OpenAI client instance used to send requests.</param>
+/// <param name="chatCompletionExecutor">The OpenAI client instance used to send requests.</param>
 /// <param name="chatCompletionsOptions">Optional chat completion options to customize the requests.</param>
-public class ChatCompletionsBuilder(ChatCompletionClientBase openAiClient, ChatCompletionsOptions? chatCompletionsOptions = null) : IChatCompletionsBuilder
+public class ChatCompletionsBuilder(ChatCompletionExecutor chatCompletionExecutor, ChatCompletionsOptions? chatCompletionsOptions = null) : IChatCompletionsBuilder
 {
     private readonly Dictionary<string, IChatCompletionTool> _toolbox = new();
     private JsonSchema? _responseSchema;
@@ -144,5 +141,5 @@ public class ChatCompletionsBuilder(ChatCompletionClientBase openAiClient, ChatC
     /// Builds the chat completions request using the configured options.
     /// </summary>
     /// <returns>A <see cref="ChatCompletionsRequest"/> instance representing the configured chat completions request.</returns>
-    public ChatCompletionsRequest BuildCompletionsRequest() => new(openAiClient, _responseSchema, ChatCompletionOptions, _toolbox);
+    public ChatCompletionsRequest BuildCompletionsRequest() => new(chatCompletionExecutor, _responseSchema, ChatCompletionOptions, _toolbox);
 }

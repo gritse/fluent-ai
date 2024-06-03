@@ -3,7 +3,7 @@ using System.Linq;
 using FluentAI.ChatCompletions.Common.Messages;
 using FluentAI.ChatCompletions.Common.Tools;
 
-namespace FluentAI.ChatCompletions.Common.Clients;
+namespace FluentAI.ChatCompletions.Common;
 
 public class ChatCompletionsOptions
 {

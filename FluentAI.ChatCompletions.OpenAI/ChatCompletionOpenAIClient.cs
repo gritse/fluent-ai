@@ -1,16 +1,15 @@
 using Azure.AI.OpenAI;
 using FluentAI.ChatCompletions.Common;
-using FluentAI.ChatCompletions.Common.Clients;
 using FluentAI.ChatCompletions.Common.Messages;
 using FluentAI.ChatCompletions.Common.Tools;
-using ChatCompletionsOptions = FluentAI.ChatCompletions.Common.Clients.ChatCompletionsOptions;
+using ChatCompletionsOptions = FluentAI.ChatCompletions.Common.ChatCompletionsOptions;
 using OpenAIChatCompletionsOptions = Azure.AI.OpenAI.ChatCompletionsOptions;
 
 namespace FluentAI.ChatCompletions.OpenAI;
 
-public class ChatCompletionOpenAIClient(OpenAIClient openAiClient) : ChatCompletionClientBase
+public class ChatCompletionOpenAIClient(OpenAIClient openAiClient) : IChatCompletionsClient
 {
-    protected override async Task<ChatCompletionResponse> GetChatCompletionsAsync(ChatCompletionsOptions completionOptions)
+    public async Task<ChatCompletionResponse> GetChatCompletionsAsync(ChatCompletionsOptions completionOptions)
     {
         var response = await openAiClient.GetChatCompletionsAsync(Map(completionOptions));
         var chatChoice = response.Value.Choices[0];
@@ -20,11 +19,9 @@ public class ChatCompletionOpenAIClient(OpenAIClient openAiClient) : ChatComplet
                             .Select(Map)
                             .ToList() ?? new();
 
-        return new ChatCompletionResponse()
-        {
-            IsChatToolCall = chatChoice.FinishReason == CompletionsFinishReason.ToolCalls,
-            CompletionMessage = new ChatCompletionAssistantMessage(chatChoice.Message.Content, toolCalls),
-        };
+        return new ChatCompletionResponse(
+            IsChatToolCall: chatChoice.FinishReason == CompletionsFinishReason.ToolCalls,
+            CompletionMessage: new ChatCompletionAssistantMessage(chatChoice.Message.Content, toolCalls));
     }
 
     private ChatCompletionsFunctionCall Map(ChatCompletionsFunctionToolCall options)
