@@ -15,24 +15,6 @@ public interface IChatCompletionsBuilder
     ChatCompletionsOptions ChatCompletionOptions { get; set; }
 
     /// <summary>
-    /// Configures the builder to use the GPT-3.5-turbo model for chat completions.
-    /// </summary>
-    /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
-    ChatCompletionsBuilder UseChatGpt35Turbo();
-
-    /// <summary>
-    /// Configures the builder to use the GPT-4-turbo model for chat completions.
-    /// </summary>
-    /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
-    ChatCompletionsBuilder UseChatGpt4Turbo();
-
-    /// <summary>
-    /// Configures the builder to use the GPT-4o model for chat completions.
-    /// </summary>
-    /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
-    ChatCompletionsBuilder UseChatGpt4o();
-
-    /// <summary>
     /// Configures the builder to use a specified chat model for completions.
     /// </summary>
     /// <param name="model">The name of the model to use.</param>

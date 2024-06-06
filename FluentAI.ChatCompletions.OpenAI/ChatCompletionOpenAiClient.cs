@@ -7,8 +7,11 @@ using OpenAIChatCompletionsOptions = Azure.AI.OpenAI.ChatCompletionsOptions;
 
 namespace FluentAI.ChatCompletions.OpenAI;
 
-public class ChatCompletionOpenAIClient(OpenAIClient openAiClient) : IChatCompletionsClient
+public class ChatCompletionOpenAiClient(OpenAIClient openAiClient) : IChatCompletionsClient
 {
+    public ChatCompletionOpenAiClient(string openAiApiKey) : this(new OpenAIClient(openAiApiKey))
+    { }
+
     public async Task<ChatCompletionResponse> GetChatCompletionsAsync(ChatCompletionsOptions completionOptions)
     {
         var response = await openAiClient.GetChatCompletionsAsync(Map(completionOptions));
@@ -23,6 +26,13 @@ public class ChatCompletionOpenAIClient(OpenAIClient openAiClient) : IChatComple
             IsChatToolCall: chatChoice.FinishReason == CompletionsFinishReason.ToolCalls,
             CompletionMessage: new ChatCompletionAssistantMessage(chatChoice.Message.Content, toolCalls));
     }
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <returns></returns>
+    public ChatCompletionsBuilder ToCompletionsBuilder() =>
+        new ChatCompletionsBuilder(new ChatCompletionExecutor(this));
 
     private ChatCompletionsFunctionCall Map(ChatCompletionsFunctionToolCall options)
     {

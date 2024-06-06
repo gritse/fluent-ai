@@ -27,36 +27,6 @@ public class ChatCompletionsBuilder(ChatCompletionExecutor chatCompletionExecuto
     public ChatCompletionsOptions ChatCompletionOptions { get; set; } = chatCompletionsOptions ?? new();
 
     /// <summary>
-    /// Configures the builder to use the GPT-3.5-turbo model for chat completions.
-    /// </summary>
-    /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
-    public ChatCompletionsBuilder UseChatGpt35Turbo()
-    {
-        ChatCompletionOptions.DeploymentName = "gpt-3.5-turbo";
-        return this;
-    }
-
-    /// <summary>
-    /// Configures the builder to use the GPT-4-turbo model for chat completions.
-    /// </summary>
-    /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
-    public ChatCompletionsBuilder UseChatGpt4Turbo()
-    {
-        ChatCompletionOptions.DeploymentName = "gpt-4-turbo";
-        return this;
-    }
-
-    /// <summary>
-    /// Configures the builder to use the GPT-4o model for chat completions.
-    /// </summary>
-    /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
-    public ChatCompletionsBuilder UseChatGpt4o()
-    {
-        ChatCompletionOptions.DeploymentName = "gpt-4o";
-        return this;
-    }
-
-    /// <summary>
     /// Configures the builder to use a specified chat model for completions.
     /// </summary>
     /// <param name="model">The name of the model to use.</param>

@@ -1,6 +1,6 @@
 # Fluent AI
 
-[![NuGet version (FluentAI.ChatCompletions)](https://img.shields.io/nuget/v/FluentAI.ChatCompletions.svg?style=flat-square)](https://www.nuget.org/packages/FluentAI.ChatCompletions/)
+[![NuGet version (FluentAI.ChatCompletions.OpenAI)](https://img.shields.io/nuget/v/FluentAI.ChatCompletions.OpenAI.svg?style=flat-square)](https://www.nuget.org/packages/FluentAI.ChatCompletions.OpenAI/)
 
 
 Fluent AI is a powerful library designed to build and execute advanced prompts using OpenAI's various ChatGPT models. It leverages the capabilities of [Azure.AI.OpenAI](https://www.nuget.org/packages/Azure.AI.OpenAI) and [NJsonSchema](https://www.nuget.org/packages/NJsonSchema) packages to provide a seamless experience for integrating AI into your .NET applications.
@@ -16,10 +16,10 @@ Fluent AI is a powerful library designed to build and execute advanced prompts u
 
 ```csharp
 var openAiToken = "...";
-var client = new OpenAIClient(openAiToken);
 
-var request = new ChatCompletionsBuilder(client)
-    .UseChatModel("gpt-4o") // Specify model name
+var request = new ChatCompletionOpenAiClient(openAiToken)
+    .ToCompletionsBuilder()
+    .UseChatGpt4o() // Specify model
     .UseChatTool(new FetchUrlTool()) // Add custom .NET methods that the model can call
     .UserPrompt("Give me a short description of the following webpage: https://docs.bland.ai/welcome-to-bland")
     .UseResponseSchema<ChatGptResponse>() // Auto-generate JSON schema for the model and instruct it to use it
