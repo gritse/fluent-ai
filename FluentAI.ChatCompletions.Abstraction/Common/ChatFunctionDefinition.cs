@@ -1,6 +1,6 @@
-using FluentAI.ChatCompletions.Common.Tools;
+using FluentAI.ChatCompletions.Abstraction.Common.Tools;
 using NJsonSchema;
 
-namespace FluentAI.ChatCompletions.Common;
+namespace FluentAI.ChatCompletions.Abstraction.Common;
 
 public record ChatFunctionDefinition(string Name, string Description, JsonSchema Parameters) : IChatCompletionsFunctionDefinition;

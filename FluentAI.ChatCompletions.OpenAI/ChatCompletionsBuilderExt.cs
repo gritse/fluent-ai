@@ -1,3 +1,5 @@
+using FluentAI.ChatCompletions.Abstraction;
+
 namespace FluentAI.ChatCompletions.OpenAI;
 
 public static class ChatCompletionsBuilderExt

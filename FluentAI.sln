@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAI.Example", "FluentAI.Example\FluentAI.Example.csproj", "{385DC69C-4CC7-4EBC-9159-B022874D33F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAI.ChatCompletions", "FluentAI.ChatCompletions\FluentAI.ChatCompletions.csproj", "{801CD612-F882-47AE-9418-656BAE2A770E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAI.ChatCompletions.Abstraction", "FluentAI.ChatCompletions.Abstraction\FluentAI.ChatCompletions.Abstraction.csproj", "{801CD612-F882-47AE-9418-656BAE2A770E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{7E060835-B724-4ED4-B5F6-F70A7C140093}"
 EndProject

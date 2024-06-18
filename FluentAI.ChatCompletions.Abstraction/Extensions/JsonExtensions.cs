@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NJsonSchema;
 
-namespace FluentAI.ChatCompletions.Extensions;
+namespace FluentAI.ChatCompletions.Abstraction.Extensions;
 
 internal static class JsonExtensions
 {

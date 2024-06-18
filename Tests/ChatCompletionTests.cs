@@ -1,7 +1,7 @@
 using System.Text.Json;
-using FluentAI.ChatCompletions.Common;
-using FluentAI.ChatCompletions.Common.Messages;
-using FluentAI.ChatCompletions.Tools;
+using FluentAI.ChatCompletions.Abstraction.Common;
+using FluentAI.ChatCompletions.Abstraction.Common.Messages;
+using FluentAI.ChatCompletions.Abstraction.Tools;
 using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NJsonSchema.Generation;

@@ -1,4 +1,4 @@
-namespace FluentAI.ChatCompletions.Common.Tools;
+namespace FluentAI.ChatCompletions.Abstraction.Common.Tools;
 
 public class ChatCompletionsFunctionCall
 {

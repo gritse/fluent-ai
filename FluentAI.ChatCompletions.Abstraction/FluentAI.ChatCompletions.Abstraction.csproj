@@ -6,7 +6,7 @@
         <LangVersion>12.0</LangVersion>
 
         <!-- NuGet package metadata -->
-        <PackageId>FluentAI.ChatCompletions</PackageId>
+        <PackageId>FluentAI.ChatCompletions.Abstraction</PackageId>
         <VersionPrefix>1.0.0</VersionPrefix>
         <Authors>gritse</Authors>
         <Product>FluentAI</Product>
@@ -27,7 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\README.md" Pack="true" PackagePath="\"/>
         <None Include="..\icon.png" Pack="true" PackagePath="\"/>
     </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 using NJsonSchema;
 
-namespace FluentAI.ChatCompletions.Common.Tools;
+namespace FluentAI.ChatCompletions.Abstraction.Common.Tools;
 
 public interface IChatCompletionsFunctionDefinition
 {

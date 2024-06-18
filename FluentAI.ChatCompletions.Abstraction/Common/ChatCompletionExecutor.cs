@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentAI.ChatCompletions.Common.Messages;
-using FluentAI.ChatCompletions.Common.Tools;
-using FluentAI.ChatCompletions.Extensions;
-using FluentAI.ChatCompletions.Tools;
+using FluentAI.ChatCompletions.Abstraction.Common.Messages;
+using FluentAI.ChatCompletions.Abstraction.Common.Tools;
+using FluentAI.ChatCompletions.Abstraction.Tools;
+using FluentAI.ChatCompletions.Abstraction.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 
-namespace FluentAI.ChatCompletions.Common;
+namespace FluentAI.ChatCompletions.Abstraction.Common;
 
 public class ChatCompletionExecutor(IChatCompletionsClient client)
 {

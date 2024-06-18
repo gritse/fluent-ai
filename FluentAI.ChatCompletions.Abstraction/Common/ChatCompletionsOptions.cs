@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using FluentAI.ChatCompletions.Common.Messages;
-using FluentAI.ChatCompletions.Common.Tools;
+using FluentAI.ChatCompletions.Abstraction.Common.Messages;
+using FluentAI.ChatCompletions.Abstraction.Common.Tools;
 
-namespace FluentAI.ChatCompletions.Common;
+namespace FluentAI.ChatCompletions.Abstraction.Common;
 
 public class ChatCompletionsOptions
 {

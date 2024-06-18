@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FluentAI.ChatCompletions\FluentAI.ChatCompletions.csproj" />
+      <ProjectReference Include="..\FluentAI.ChatCompletions.Abstraction\FluentAI.ChatCompletions.Abstraction.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using FluentAI.ChatCompletions.Common;
-using FluentAI.ChatCompletions.Common.Messages;
-using FluentAI.ChatCompletions.Tools;
-using FluentAI.ChatCompletions.Extensions;
+using FluentAI.ChatCompletions.Abstraction.Common;
+using FluentAI.ChatCompletions.Abstraction.Common.Messages;
+using FluentAI.ChatCompletions.Abstraction.Tools;
+using FluentAI.ChatCompletions.Abstraction.Extensions;
 using Newtonsoft.Json;
 using JsonSchema = NJsonSchema.JsonSchema;
 
-namespace FluentAI.ChatCompletions;
+namespace FluentAI.ChatCompletions.Abstraction;
 
 /// <summary>
 /// Builder class for constructing and executing chat completions using the OpenAI API.
@@ -22,7 +22,7 @@ public class ChatCompletionsBuilder(ChatCompletionExecutor chatCompletionExecuto
     /// Gets or sets the chat completion options used to customize the chat completion requests.
     /// </summary>
     /// <value>
-    /// An instance of <see cref="Azure.AI.OpenAI.ChatCompletionsOptions"/> that contains the configuration for the chat completion requests.
+    /// An instance of <see cref="ChatCompletionsOptions"/> that contains the configuration for the chat completion requests.
     /// </value>
     public ChatCompletionsOptions ChatCompletionOptions { get; set; } = chatCompletionsOptions ?? new();
 

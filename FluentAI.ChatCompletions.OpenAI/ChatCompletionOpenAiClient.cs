@@ -1,8 +1,9 @@
 using Azure.AI.OpenAI;
-using FluentAI.ChatCompletions.Common;
-using FluentAI.ChatCompletions.Common.Messages;
-using FluentAI.ChatCompletions.Common.Tools;
-using ChatCompletionsOptions = FluentAI.ChatCompletions.Common.ChatCompletionsOptions;
+using FluentAI.ChatCompletions.Abstraction;
+using FluentAI.ChatCompletions.Abstraction.Common;
+using FluentAI.ChatCompletions.Abstraction.Common.Messages;
+using FluentAI.ChatCompletions.Abstraction.Common.Tools;
+using ChatCompletionsOptions = FluentAI.ChatCompletions.Abstraction.Common.ChatCompletionsOptions;
 using OpenAIChatCompletionsOptions = Azure.AI.OpenAI.ChatCompletionsOptions;
 
 namespace FluentAI.ChatCompletions.OpenAI;

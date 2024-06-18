@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace FluentAI.ChatCompletions.Common;
+namespace FluentAI.ChatCompletions.Abstraction.Common;
 
 public interface IChatCompletionsClient
 {

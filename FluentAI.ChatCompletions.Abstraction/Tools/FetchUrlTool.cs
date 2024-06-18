@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace FluentAI.ChatCompletions.Tools;
+namespace FluentAI.ChatCompletions.Abstraction.Tools;
 
 /// <summary>
 /// Handles requests to fetch content from a specified URL.

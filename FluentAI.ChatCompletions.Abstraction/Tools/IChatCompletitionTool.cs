@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace FluentAI.ChatCompletions.Tools;
+namespace FluentAI.ChatCompletions.Abstraction.Tools;
 
 public interface IChatCompletionTool
 {

@@ -1,4 +1,4 @@
-namespace FluentAI.ChatCompletions.Common;
+namespace FluentAI.ChatCompletions.Abstraction.Common;
 
 public enum ChatCompletionFormat
 {

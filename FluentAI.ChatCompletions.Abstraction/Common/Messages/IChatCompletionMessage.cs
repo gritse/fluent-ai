@@ -1,4 +1,4 @@
-namespace FluentAI.ChatCompletions.Common.Messages;
+namespace FluentAI.ChatCompletions.Abstraction.Common.Messages;
 
 public interface IChatCompletionMessage
 {

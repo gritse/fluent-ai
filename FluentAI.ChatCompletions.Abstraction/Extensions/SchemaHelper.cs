@@ -2,13 +2,13 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 using System.Text.Json;
-using FluentAI.ChatCompletions.Common;
-using FluentAI.ChatCompletions.Common.Tools;
-using FluentAI.ChatCompletions.Tools;
+using FluentAI.ChatCompletions.Abstraction.Common;
+using FluentAI.ChatCompletions.Abstraction.Common.Tools;
+using FluentAI.ChatCompletions.Abstraction.Tools;
 using NJsonSchema;
 using NJsonSchema.Generation;
 
-namespace FluentAI.ChatCompletions.Extensions;
+namespace FluentAI.ChatCompletions.Abstraction.Extensions;
 
 internal static class SchemaHelper
 {

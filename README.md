@@ -21,7 +21,7 @@ var request = new ChatCompletionOpenAiClient(openAiToken)
     .ToCompletionsBuilder()
     .UseChatGpt4o() // Specify model
     .UseChatTool(new FetchUrlTool()) // Add custom .NET methods that the model can call
-    .UserPrompt("Give me a short description of the following webpage: https://docs.bland.ai/welcome-to-bland")
+    .UserPrompt("Give me a short description of the following webpage: https://example.com")
     .UseResponseSchema<ChatGptResponse>() // Auto-generate JSON schema for the model and instruct it to use it
     .BuildCompletionsRequest();
 

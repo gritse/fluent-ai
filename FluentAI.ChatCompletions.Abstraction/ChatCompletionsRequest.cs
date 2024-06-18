@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentAI.ChatCompletions.Common;
-using FluentAI.ChatCompletions.Tools;
+using FluentAI.ChatCompletions.Abstraction.Common;
+using FluentAI.ChatCompletions.Abstraction.Tools;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 
-namespace FluentAI.ChatCompletions;
+namespace FluentAI.ChatCompletions.Abstraction;
 
 public class ChatCompletionsRequest(
     ChatCompletionExecutor chatCompletionExecutor,

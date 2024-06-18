@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace FluentAI.ChatCompletions.Tools;
+namespace FluentAI.ChatCompletions.Abstraction.Tools;
 
 /// <summary>
 /// Base class for chat completion tools, providing common functionality for handling requests and responses.

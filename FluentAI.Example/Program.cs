@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using FluentAI.ChatCompletions.Abstraction.Tools;
 using FluentAI.ChatCompletions.OpenAI;
-using FluentAI.ChatCompletions.Tools;
 using FluentAI.Example;
 
 var openAiToken = Keychain.GetKeychainPassword("OPEN_AI_TOKEN", Environment.UserName);
