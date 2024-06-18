@@ -1,7 +1,5 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace FluentAI.ChatCompletions.Abstraction.Tools;
 

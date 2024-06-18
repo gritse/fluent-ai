@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using FluentAI.ChatCompletions.Abstraction.Common;
 using FluentAI.ChatCompletions.Abstraction.Common.Messages;
 using FluentAI.ChatCompletions.Abstraction.Tools;
