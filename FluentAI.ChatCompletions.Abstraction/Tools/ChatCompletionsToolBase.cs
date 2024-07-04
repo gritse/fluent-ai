@@ -6,7 +6,7 @@ namespace FluentAI.ChatCompletions.Abstraction.Tools;
 /// <typeparam name="TRequest">The type of the request handled by the tool.</typeparam>
 /// <typeparam name="TResponse">The type of the response returned by the tool.</typeparam>
 /// <param name="functionName">The name of the function associated with the tool.</param>
-public abstract class ChatCompletionToolBase<TRequest, TResponse>(string functionName) : IChatCompletionTool
+public abstract class ChatCompletionsToolBase<TRequest, TResponse>(string functionName) : IChatCompletionsTool
 {
     /// <summary>
     /// Gets or sets the name of the function associated with the tool.
@@ -25,10 +25,10 @@ public abstract class ChatCompletionToolBase<TRequest, TResponse>(string functio
     /// </summary>
     /// <param name="request">The request to handle.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the response.</returns>
-    async Task<object?> IChatCompletionTool.Handle(object request) => await Handle((TRequest)request);
+    async Task<object?> IChatCompletionsTool.Handle(object request) => await Handle((TRequest)request);
 
     /// <summary>
     /// Gets the type of the request handled by the tool.
     /// </summary>
-    Type IChatCompletionTool.RequestType => typeof(TRequest);
+    Type IChatCompletionsTool.RequestType => typeof(TRequest);
 }

@@ -11,7 +11,7 @@ namespace FluentAI.ChatCompletions.Abstraction.Extensions;
 
 internal static class SchemaHelper
 {
-    public static IChatCompletionsFunctionDefinition CreateToolDefinitionFromType<T>(this T tool) where T : IChatCompletionTool
+    public static IChatCompletionsFunctionDefinition CreateToolDefinitionFromType<T>(this T tool) where T : IChatCompletionsTool
     {
         var type = typeof(T);
         var descriptionAttribute = type.GetCustomAttribute<DescriptionAttribute>();

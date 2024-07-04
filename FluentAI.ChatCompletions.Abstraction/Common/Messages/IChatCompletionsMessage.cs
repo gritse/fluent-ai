@@ -1,6 +1,6 @@
 namespace FluentAI.ChatCompletions.Abstraction.Common.Messages;
 
-public interface IChatCompletionMessage
+public interface IChatCompletionsMessage
 {
     public string Content { get; }
 }

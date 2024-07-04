@@ -9,14 +9,14 @@ using NJsonSchema;
 
 namespace FluentAI.ChatCompletions.Abstraction.Common;
 
-public class ChatCompletionExecutor(IChatCompletionsClient client)
+public class ChatCompletionsExecutor(IChatCompletionsClient client)
 {
     public async Task<JObject> GetStructuredChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions,
         JsonSchema responseSchema,
-        IReadOnlyDictionary<string, IChatCompletionTool>? toolbox = null,
+        IReadOnlyDictionary<string, IChatCompletionsTool>? toolbox = null,
         int maxRetries = 2)
     {
-        toolbox ??= new Dictionary<string, IChatCompletionTool>();
+        toolbox ??= new Dictionary<string, IChatCompletionsTool>();
 
         int remainingRetries = maxRetries;
 
@@ -28,7 +28,7 @@ public class ChatCompletionExecutor(IChatCompletionsClient client)
             if (unvalidatedJson.IsValidJson(responseSchema, out var errorMessage))
                 return JObject.Parse(unvalidatedJson);
 
-            chatCompletionsOptions.Messages.Add(new ChatCompletionUserMessage($"Answer isn't valid due to json schema validation errors:\r\n{errorMessage}"));
+            chatCompletionsOptions.Messages.Add(new ChatCompletionsUserMessage($"Answer isn't valid due to json schema validation errors:\r\n{errorMessage}"));
 
             remainingRetries--;
         }
@@ -44,7 +44,7 @@ public class ChatCompletionExecutor(IChatCompletionsClient client)
 
     }
 
-    public async Task<ChatCompletionResponse> GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, IReadOnlyDictionary<string, IChatCompletionTool> toolbox)
+    public async Task<ChatCompletionsResponse> GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, IReadOnlyDictionary<string, IChatCompletionsTool> toolbox)
     {
         var response = await client.GetChatCompletionsAsync(chatCompletionsOptions);
 
@@ -62,8 +62,8 @@ public class ChatCompletionExecutor(IChatCompletionsClient client)
         return response;
     }
 
-    private static async Task<ChatCompletionToolMessage> GetToolCallResponseMessage(ChatCompletionsFunctionCall toolCall,
-        IReadOnlyDictionary<string, IChatCompletionTool> toolbox)
+    private static async Task<ChatCompletionsToolMessage> GetToolCallResponseMessage(ChatCompletionsFunctionCall toolCall,
+        IReadOnlyDictionary<string, IChatCompletionsTool> toolbox)
     {
         var unvalidatedArguments = toolCall.Arguments;
 
@@ -92,6 +92,6 @@ public class ChatCompletionExecutor(IChatCompletionsClient client)
 
         var response = await tool.Handle(request);
 
-        return new ChatCompletionToolMessage(JsonConvert.SerializeObject(response, serializerSettings), toolCall.Id);
+        return new ChatCompletionsToolMessage(JsonConvert.SerializeObject(response, serializerSettings), toolCall.Id);
     }
 }

@@ -7,7 +7,7 @@ namespace FluentAI.ChatCompletions.Abstraction.Tools;
 /// Handles requests to fetch content from a specified URL.
 /// </summary>
 [Description("Gets content by specified url")]
-public class FetchUrlTool() : ChatCompletionToolBase<FetchUrlTool.FetchUrlToolRequest, FetchUrlTool.FetchUrlToolResponse>("fetch_url")
+public class FetchUrlTool() : ChatCompletionsToolBase<FetchUrlTool.FetchUrlToolRequest, FetchUrlTool.FetchUrlToolResponse>("fetch_url")
 {
     /// <summary>
     /// Handles the specified request to fetch content from a URL.

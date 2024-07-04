@@ -30,16 +30,16 @@ public class ChatCompletionTests
     public async Task ReturnsChatCompletionMessageContentAsExpected()
     {
         var client = Substitute.For<IChatCompletionsClient>();
-        var executor = new ChatCompletionExecutor(client);
+        var executor = new ChatCompletionsExecutor(client);
 
         client.GetChatCompletionsAsync(Arg.Any<ChatCompletionsOptions>())
-            .Returns(new ChatCompletionResponse(
-                new ChatCompletionAssistantMessage("Test", []),
+            .Returns(new ChatCompletionsResponse(
+                new ChatCompletionsAssistantMessage("Test", []),
                 false));
 
         var completion = await executor.GetChatCompletionsAsync(
             new ChatCompletionsOptions(),
-            new Dictionary<string, IChatCompletionTool>());
+            new Dictionary<string, IChatCompletionsTool>());
 
         Assert.That(completion.IsChatToolCall, Is.EqualTo(false));
         Assert.That(completion.CompletionMessage.Content, Is.EqualTo("Test"));
@@ -49,19 +49,19 @@ public class ChatCompletionTests
     public async Task ParsesValidJsonChatCompletionResponse()
     {
         var client = Substitute.For<IChatCompletionsClient>();
-        var executor = new ChatCompletionExecutor(client);
+        var executor = new ChatCompletionsExecutor(client);
 
         var validJson = "{'message': 'Test'}";
 
         client.GetChatCompletionsAsync(Arg.Any<ChatCompletionsOptions>())
-            .Returns(new ChatCompletionResponse(
-                new ChatCompletionAssistantMessage(validJson, []),
+            .Returns(new ChatCompletionsResponse(
+                new ChatCompletionsAssistantMessage(validJson, []),
                 false));
 
         var completion = await executor.GetStructuredChatCompletionsAsync(
             new ChatCompletionsOptions(),
             _jsonSchema,
-            new Dictionary<string, IChatCompletionTool>());
+            new Dictionary<string, IChatCompletionsTool>());
 
         Assert.That(completion, Is.EqualTo(JObject.Parse(validJson)));
     }
@@ -70,19 +70,19 @@ public class ChatCompletionTests
     public async Task ThrowsExceptionForInvalidJsonStructure()
     {
         var client = Substitute.For<IChatCompletionsClient>();
-        var executor = new ChatCompletionExecutor(client);
+        var executor = new ChatCompletionsExecutor(client);
 
         var invalidJson = "{'msg': 'Test'}";
 
         client.GetChatCompletionsAsync(Arg.Any<ChatCompletionsOptions>())
-            .Returns(new ChatCompletionResponse(
-                new ChatCompletionAssistantMessage(invalidJson, []),
+            .Returns(new ChatCompletionsResponse(
+                new ChatCompletionsAssistantMessage(invalidJson, []),
                 false));
 
         Assert.ThrowsAsync<InvalidOperationException>(() => executor.GetStructuredChatCompletionsAsync(
             new ChatCompletionsOptions(),
             _jsonSchema,
-            new Dictionary<string, IChatCompletionTool>()));
+            new Dictionary<string, IChatCompletionsTool>()));
 
         await client.Received(3).GetChatCompletionsAsync(Arg.Any<ChatCompletionsOptions>());
     }
@@ -91,19 +91,19 @@ public class ChatCompletionTests
     public async Task ThrowsExceptionForMalformedJson()
     {
         var client = Substitute.For<IChatCompletionsClient>();
-        var executor = new ChatCompletionExecutor(client);
+        var executor = new ChatCompletionsExecutor(client);
 
         var invalidJson = "{ Malformed Json }";
 
         client.GetChatCompletionsAsync(Arg.Any<ChatCompletionsOptions>())
-            .Returns(new ChatCompletionResponse(
-                new ChatCompletionAssistantMessage(invalidJson, []),
+            .Returns(new ChatCompletionsResponse(
+                new ChatCompletionsAssistantMessage(invalidJson, []),
                 false));
 
         Assert.ThrowsAsync<InvalidOperationException>(() => executor.GetStructuredChatCompletionsAsync(
             new ChatCompletionsOptions(),
             _jsonSchema,
-            new Dictionary<string, IChatCompletionTool>()));
+            new Dictionary<string, IChatCompletionsTool>()));
 
         await client.Received(3).GetChatCompletionsAsync(Arg.Any<ChatCompletionsOptions>());
     }
@@ -112,23 +112,23 @@ public class ChatCompletionTests
     public async Task RetriesAndReturnsValidJsonAfterInitialFailure()
     {
         var client = Substitute.For<IChatCompletionsClient>();
-        var executor = new ChatCompletionExecutor(client);
+        var executor = new ChatCompletionsExecutor(client);
 
         var invalidJson = "{ Malformed Json }";
         var validJson = "{'message': 'Test'}";
 
         client.GetChatCompletionsAsync(Arg.Any<ChatCompletionsOptions>())
-            .Returns(new ChatCompletionResponse(
-                new ChatCompletionAssistantMessage(invalidJson, []),
+            .Returns(new ChatCompletionsResponse(
+                new ChatCompletionsAssistantMessage(invalidJson, []),
                 false),
-                new ChatCompletionResponse(
-                    new ChatCompletionAssistantMessage(validJson, []),
+                new ChatCompletionsResponse(
+                    new ChatCompletionsAssistantMessage(validJson, []),
                     false));
 
         var completion = await executor.GetStructuredChatCompletionsAsync(
             new ChatCompletionsOptions(),
             _jsonSchema,
-            new Dictionary<string, IChatCompletionTool>());
+            new Dictionary<string, IChatCompletionsTool>());
 
         Assert.That(completion, Is.EqualTo(JObject.Parse(validJson)));
         await client.Received(2).GetChatCompletionsAsync(Arg.Any<ChatCompletionsOptions>());
@@ -140,19 +140,19 @@ public class ChatCompletionTests
     public async Task RetriesSpecifiedNumberOfTimesForInvalidJson(int retry)
     {
         var client = Substitute.For<IChatCompletionsClient>();
-        var executor = new ChatCompletionExecutor(client);
+        var executor = new ChatCompletionsExecutor(client);
 
         var invalidJson = "{ Malformed Json }";
 
         client.GetChatCompletionsAsync(Arg.Any<ChatCompletionsOptions>())
-            .Returns(new ChatCompletionResponse(
-                    new ChatCompletionAssistantMessage(invalidJson, []),
+            .Returns(new ChatCompletionsResponse(
+                    new ChatCompletionsAssistantMessage(invalidJson, []),
                     false));
 
         Assert.ThrowsAsync<InvalidOperationException>(() => executor.GetStructuredChatCompletionsAsync(
             new ChatCompletionsOptions(),
             _jsonSchema,
-            new Dictionary<string, IChatCompletionTool>(),
+            new Dictionary<string, IChatCompletionsTool>(),
             maxRetries: retry));
 
         await client.Received(retry + 1).GetChatCompletionsAsync(Arg.Any<ChatCompletionsOptions>());

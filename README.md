@@ -17,23 +17,23 @@ Fluent AI is a powerful library designed to build and execute advanced prompts u
 ```csharp
 var openAiToken = "...";
 
-var request = new ChatCompletionOpenAiClient(openAiToken)
-    .ToCompletionsBuilder()
-    .UseChatGpt4o() // Specify model
-    .UseChatTool(new FetchUrlTool()) // Add custom .NET methods that the model can call
-    .UserPrompt("Give me a short description of the following webpage: https://example.com")
-    .UseResponseSchema<ChatGptResponse>() // Auto-generate JSON schema for the model and instruct it to use it
+var client = new ChatCompletionsOpenAiClient(openAiToken);
+var builder = client.ToCompletionsBuilder();
+
+var request = builder
+    .UseChatGpt4o()
+    .UseChatTool(new FetchUrlTool())
+    .UserPrompt("Give me short description of the following webpage: https://docs.bland.ai/welcome-to-bland")
+    .UseResponseSchema<ChatGptResponse>()
     .BuildCompletionsRequest();
 
-ChatGptResponse response = await request.GetStructuredResponse<ChatGptResponse>(); // Get structured and validated response from ChatGPT
+var response = await request.GetStructuredResponse<ChatGptResponse>();
 
 Console.WriteLine(response.Text);
 
-// Instruct the model to use this type as the answer
-[Description("This is the response model you should use to send answers to questions")]
+[Description("This is response model you should use to send answer for questions")]
 public class ChatGptResponse
 {
-    // Specify descriptions of properties and add additional validation like Url, Phone, Email, Date, etc.
     [Description("Your response message"), Required]
     public string Text { get; set; }
 }

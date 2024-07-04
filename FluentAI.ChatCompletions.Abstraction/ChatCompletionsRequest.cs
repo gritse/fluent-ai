@@ -7,10 +7,10 @@ using NJsonSchema;
 namespace FluentAI.ChatCompletions.Abstraction;
 
 public class ChatCompletionsRequest(
-    ChatCompletionExecutor chatCompletionExecutor,
+    ChatCompletionsExecutor chatCompletionExecutor,
     JsonSchema? responseSchema,
     ChatCompletionsOptions chatCompletionsOptions,
-    IReadOnlyDictionary<string, IChatCompletionTool> toolbox) : IChatCompletionsRequest
+    IReadOnlyDictionary<string, IChatCompletionsTool> toolbox) : IChatCompletionsRequest
 {
     private readonly JsonSerializer _jsonSerializer = new() { ContractResolver = new CamelCasePropertyNamesContractResolver() };
 

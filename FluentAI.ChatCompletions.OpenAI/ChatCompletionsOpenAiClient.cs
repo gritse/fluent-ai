@@ -8,12 +8,12 @@ using OpenAIChatCompletionsOptions = Azure.AI.OpenAI.ChatCompletionsOptions;
 
 namespace FluentAI.ChatCompletions.OpenAI;
 
-public class ChatCompletionOpenAiClient(OpenAIClient openAiClient) : IChatCompletionsClient
+public class ChatCompletionsOpenAiClient(OpenAIClient openAiClient) : IChatCompletionsClient
 {
-    public ChatCompletionOpenAiClient(string openAiApiKey) : this(new OpenAIClient(openAiApiKey))
+    public ChatCompletionsOpenAiClient(string openAiApiKey) : this(new OpenAIClient(openAiApiKey))
     { }
 
-    public async Task<ChatCompletionResponse> GetChatCompletionsAsync(ChatCompletionsOptions completionOptions)
+    public async Task<ChatCompletionsResponse> GetChatCompletionsAsync(ChatCompletionsOptions completionOptions)
     {
         var response = await openAiClient.GetChatCompletionsAsync(Map(completionOptions));
         var chatChoice = response.Value.Choices[0];
@@ -23,9 +23,9 @@ public class ChatCompletionOpenAiClient(OpenAIClient openAiClient) : IChatComple
                             .Select(Map)
                             .ToList() ?? new();
 
-        return new ChatCompletionResponse(
+        return new ChatCompletionsResponse(
             IsChatToolCall: chatChoice.FinishReason == CompletionsFinishReason.ToolCalls,
-            CompletionMessage: new ChatCompletionAssistantMessage(chatChoice.Message.Content, toolCalls));
+            CompletionMessage: new ChatCompletionsAssistantMessage(chatChoice.Message.Content, toolCalls));
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public class ChatCompletionOpenAiClient(OpenAIClient openAiClient) : IChatComple
     /// </summary>
     /// <returns></returns>
     public ChatCompletionsBuilder ToCompletionsBuilder() =>
-        new ChatCompletionsBuilder(new ChatCompletionExecutor(this));
+        new ChatCompletionsBuilder(new ChatCompletionsExecutor(this));
 
     private ChatCompletionsFunctionCall Map(ChatCompletionsFunctionToolCall options)
     {
@@ -65,8 +65,8 @@ public class ChatCompletionOpenAiClient(OpenAIClient openAiClient) : IChatComple
 
         openAiChatCompletionOptions.ResponseFormat = options.ResponseFormat switch
         {
-            ChatCompletionFormat.Json => ChatCompletionsResponseFormat.JsonObject,
-            ChatCompletionFormat.Text => ChatCompletionsResponseFormat.Text
+            ChatCompletionsFormat.Json => ChatCompletionsResponseFormat.JsonObject,
+            ChatCompletionsFormat.Text => ChatCompletionsResponseFormat.Text
         };
 
         return openAiChatCompletionOptions;
@@ -82,18 +82,18 @@ public class ChatCompletionOpenAiClient(OpenAIClient openAiClient) : IChatComple
         };
     }
 
-    private ChatRequestMessage Map(IChatCompletionMessage message)
+    private ChatRequestMessage Map(IChatCompletionsMessage message)
     {
         return message switch
         {
-            ChatCompletionUserMessage => new ChatRequestUserMessage(message.Content),
-            ChatCompletionAssistantMessage a => Map(a),
-            ChatCompletionSystemMessage => new ChatRequestSystemMessage(message.Content),
-            ChatCompletionToolMessage t => new ChatRequestToolMessage(message.Content, t.Id)
+            ChatCompletionsUserMessage => new ChatRequestUserMessage(message.Content),
+            ChatCompletionsAssistantMessage a => Map(a),
+            ChatCompletionsSystemMessage => new ChatRequestSystemMessage(message.Content),
+            ChatCompletionsToolMessage t => new ChatRequestToolMessage(message.Content, t.Id)
         };
     }
 
-    private ChatRequestMessage Map(ChatCompletionAssistantMessage message)
+    private ChatRequestMessage Map(ChatCompletionsAssistantMessage message)
     {
         var assistantMessage = new ChatRequestAssistantMessage(message.Content);
         foreach (var toolCall in message.ToolCalls)

@@ -12,9 +12,9 @@ namespace FluentAI.ChatCompletions.Abstraction;
 /// </summary>
 /// <param name="chatCompletionExecutor">The OpenAI client instance used to send requests.</param>
 /// <param name="chatCompletionsOptions">Optional chat completion options to customize the requests.</param>
-public class ChatCompletionsBuilder(ChatCompletionExecutor chatCompletionExecutor, ChatCompletionsOptions? chatCompletionsOptions = null) : IChatCompletionsBuilder
+public class ChatCompletionsBuilder(ChatCompletionsExecutor chatCompletionExecutor, ChatCompletionsOptions? chatCompletionsOptions = null) : IChatCompletionsBuilder
 {
-    private readonly Dictionary<string, IChatCompletionTool> _toolbox = new();
+    private readonly Dictionary<string, IChatCompletionsTool> _toolbox = new();
     private JsonSchema? _responseSchema;
 
     /// <summary>
@@ -43,7 +43,7 @@ public class ChatCompletionsBuilder(ChatCompletionExecutor chatCompletionExecuto
     /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
     public ChatCompletionsBuilder SystemPrompt(string prompt)
     {
-        ChatCompletionOptions.Messages.Add(new ChatCompletionSystemMessage(prompt));
+        ChatCompletionOptions.Messages.Add(new ChatCompletionsSystemMessage(prompt));
         return this;
     }
 
@@ -54,7 +54,7 @@ public class ChatCompletionsBuilder(ChatCompletionExecutor chatCompletionExecuto
     /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
     public ChatCompletionsBuilder AssistantPrompt(string prompt)
     {
-        ChatCompletionOptions.Messages.Add(new ChatCompletionAssistantMessage(prompt, new()));
+        ChatCompletionOptions.Messages.Add(new ChatCompletionsAssistantMessage(prompt, new()));
         return this;
     }
 
@@ -65,7 +65,7 @@ public class ChatCompletionsBuilder(ChatCompletionExecutor chatCompletionExecuto
     /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
     public ChatCompletionsBuilder UserPrompt(string prompt)
     {
-        ChatCompletionOptions.Messages.Add(new ChatCompletionUserMessage(prompt));
+        ChatCompletionOptions.Messages.Add(new ChatCompletionsUserMessage(prompt));
         return this;
     }
 
@@ -74,7 +74,7 @@ public class ChatCompletionsBuilder(ChatCompletionExecutor chatCompletionExecuto
     /// </summary>
     /// <param name="chatTool">The chat tool to add.</param>
     /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
-    public ChatCompletionsBuilder UseChatTool(IChatCompletionTool chatTool)
+    public ChatCompletionsBuilder UseChatTool(IChatCompletionsTool chatTool)
     {
         var toolDefinition = chatTool.CreateToolDefinitionFromType();
         ChatCompletionOptions.Tools.Add(toolDefinition);
@@ -100,8 +100,8 @@ public class ChatCompletionsBuilder(ChatCompletionExecutor chatCompletionExecuto
     {
         _responseSchema = jsonSchema;
 
-        ChatCompletionOptions.ResponseFormat = ChatCompletionFormat.Json;
-        ChatCompletionOptions.Messages.Add(new ChatCompletionUserMessage($"Return answer in json format as specified in schema:\r\n{_responseSchema.ToJson(Formatting.Indented)}"));
+        ChatCompletionOptions.ResponseFormat = ChatCompletionsFormat.Json;
+        ChatCompletionOptions.Messages.Add(new ChatCompletionsUserMessage($"Return answer in json format as specified in schema:\r\n{_responseSchema.ToJson(Formatting.Indented)}"));
 
         return this;
     }

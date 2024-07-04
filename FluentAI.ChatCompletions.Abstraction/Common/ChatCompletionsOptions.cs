@@ -5,11 +5,11 @@ namespace FluentAI.ChatCompletions.Abstraction.Common;
 
 public class ChatCompletionsOptions
 {
-    public List<IChatCompletionMessage> Messages { get; private init; } = new();
+    public List<IChatCompletionsMessage> Messages { get; private init; } = new();
 
     public List<IChatCompletionsFunctionDefinition> Tools { get; private init; } = new();
     public string DeploymentName { get; set; }
-    public ChatCompletionFormat ResponseFormat { get; set; }
+    public ChatCompletionsFormat ResponseFormat { get; set; }
 
     public ChatCompletionsOptions Clone()
     {

@@ -2,12 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using FluentAI.ChatCompletions.Abstraction.Tools;
 using FluentAI.ChatCompletions.OpenAI;
-using FluentAI.Example;
 
-var openAiToken = Keychain.GetKeychainPassword("OPEN_AI_TOKEN", Environment.UserName);
+var openAiToken = Environment.GetEnvironmentVariable("OPEN_AI_TOKEN")!;
 
-var request = new ChatCompletionOpenAiClient(openAiToken)
-    .ToCompletionsBuilder()
+var client = new ChatCompletionsOpenAiClient(openAiToken);
+var builder = client.ToCompletionsBuilder();
+
+var request = builder
     .UseChatGpt4o()
     .UseChatTool(new FetchUrlTool())
     .UserPrompt("Give me short description of the following webpage: https://docs.bland.ai/welcome-to-bland")

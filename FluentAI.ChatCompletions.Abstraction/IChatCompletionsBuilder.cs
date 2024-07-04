@@ -47,7 +47,7 @@ public interface IChatCompletionsBuilder
     /// </summary>
     /// <param name="chatTool">The chat tool to add.</param>
     /// <returns>The current instance of the <see cref="ChatCompletionsBuilder"/>.</returns>
-    ChatCompletionsBuilder UseChatTool(IChatCompletionTool chatTool);
+    ChatCompletionsBuilder UseChatTool(IChatCompletionsTool chatTool);
 
     /// <summary>
     /// Configures the response schema for structured responses.

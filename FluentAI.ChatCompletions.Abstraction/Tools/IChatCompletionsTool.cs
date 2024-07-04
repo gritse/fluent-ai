@@ -1,6 +1,6 @@
 namespace FluentAI.ChatCompletions.Abstraction.Tools;
 
-public interface IChatCompletionTool
+public interface IChatCompletionsTool
 {
     string FunctionName { get; }
 
